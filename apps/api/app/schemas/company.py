@@ -1,27 +1,21 @@
 from datetime import datetime
-
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr, ConfigDict
 
 
 class CompanyCreate(BaseModel):
-
     name: str
+    email: EmailStr
 
-    email: str
 
+class CompanyUpdate(BaseModel):
+    name: str | None = None
+    email: EmailStr | None = None
 
 
 class CompanyResponse(BaseModel):
-
     id: int
-
     name: str
-
-    email: str
-
+    email: EmailStr
     created_at: datetime
 
-
-    class Config:
-
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
