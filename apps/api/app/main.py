@@ -1,22 +1,22 @@
 from fastapi import FastAPI
+from app.api.router import api_router
 from app.core.config import settings
 
 app = FastAPI(
-    title=settings.PROJECT_NAME,
-    version=settings.VERSION,
-    openapi_url=f"{settings.API_V1_STR}/openapi.json"
+    title=settings.APP_NAME,
+    version=settings.APP_VERSION,
+    debug=settings.APP_DEBUG,
 )
 
-@app.get("/health", tags=["Health"])
-async def health_check():
-    """
-    Endpoint de Health Check para monitoramento e validação do status da API.
-    """
+app.include_router(
+    api_router,
+    prefix=settings.API_PREFIX,
+)
+
+@app.get("/", tags=["Root"])
+async def root():
     return {
-        "status": "healthy",
-        "project": settings.PROJECT_NAME,
-        "version": settings.VERSION
+        "name": settings.APP_NAME,
+        "version": settings.APP_VERSION,
+        "status": "running",
     }
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)

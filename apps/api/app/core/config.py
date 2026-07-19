@@ -1,27 +1,29 @@
+from functools import lru_cache
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from pydantic import ValidationError
 
 class Settings(BaseSettings):
-    PROJECT_NAME: str = "Scalora API"
-    VERSION: str = "1.0.0"
-    API_V1_STR: str = "/api/v1"
+    APP_NAME: str = "Scalora API"
+    APP_VERSION: str = "0.1.0"
+    APP_ENV: str = "development"
+    APP_DEBUG: bool = True
 
-    # Database Settings
-    POSTGRES_SERVER: str
-    POSTGRES_USER: str
-    POSTGRES_PASSWORD: str
-    POSTGRES_DB: str
-    POSTGRES_PORT: int = 5432
+    API_PREFIX: str = "/api/v1"
 
-    # Configuração para ler o arquivo .env
+    # Variáveis do banco de dados (mapeadas para aceitar o seu .env)
+    POSTGRES_USER: str = "postgres"
+    POSTGRES_PASSWORD: str = "secret"
+    POSTGRES_DB: str = "scalora_db"
+    POSTGRES_PORT: str = "5432"
+    POSTGRES_HOST: str = "localhost"
+
     model_config = SettingsConfigDict(
-        env_file=".env", 
-        env_file_encoding="utf-8",
-        extra="ignore"
+        env_file=".env",
+        case_sensitive=True,
+        extra="ignore"  # Se tiver mais alguma variável perdida no .env, ele ignora silenciosamente em vez de quebrar
     )
 
-    @property
-    def database_url(self) -> str:
-        return f"postgresql+asyncpg://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@{self.POSTGRES_SERVER}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
+@lru_cache
+def get_settings() -> Settings:
+    return Settings()
 
-settings = Settings()
+settings = get_settings()
