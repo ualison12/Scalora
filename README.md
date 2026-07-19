@@ -1,88 +1,43 @@
-# Scalora
+# Scalora Platform
 
-## Intelligent Business Operating System
+Business Operating System powered by Artificial Intelligence.
 
-Scalora is a modern SaaS platform designed to help companies manage customers, sales, automation and business intelligence in one place.
+## Stack
 
----
+### Backend
 
-## 🚀 Vision
-
-Create an intelligent operating system for businesses combining:
-
-- CRM
-- Automation
-- Artificial Intelligence
-- Analytics
-- Business Management
-
----
-
-## 🏗 Architecture
-
-Frontend:
-- React
-- TypeScript
-- Tailwind CSS
-- Shadcn UI
-
-Backend:
 - Python
 - FastAPI
 - PostgreSQL
+- SQLAlchemy
 - Redis
-- Celery
 
-Infrastructure:
+### Frontend
+
+- Next.js
+- TypeScript
+- Tailwind CSS
+
+### Infrastructure
+
 - Docker
-- CI/CD
-- Cloud Ready
+- Docker Compose
+- Nginx
 
 ---
 
-## 📦 Main Modules
+## Modules
 
-### CRM
-- Customers
-- Leads
-- Sales Pipeline
-- Activities
-
-### Automation
-- Workflows
-- Notifications
-- Integrations
-
-### Artificial Intelligence
-- AI Assistant
-- Customer Analysis
-- Sales Suggestions
-
-### Analytics
-- Dashboards
-- Reports
-- KPIs
+- Authentication
+- CRM
+- AI
+- Automation
+- Billing
+- Analytics
 
 ---
 
-## 🔐 Security
+## Status
 
-Features:
-
-- JWT Authentication
-- Role Based Access Control
-- Data Isolation
-- Secure API
-
----
-
-## 📌 Status
-
-Development Phase:
-- Foundation
-
----
-
-## License
-
-Private SaaS Project
+Release 0.1.0
+Foundation
