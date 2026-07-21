@@ -1,9 +1,9 @@
 from datetime import datetime
 
 from sqlalchemy import String, DateTime
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from app.db.base import Base
+from app.database import Base
 
 
 class Company(Base):
@@ -33,4 +33,15 @@ class Company(Base):
     created_at: Mapped[datetime] = mapped_column(
         DateTime,
         default=datetime.utcnow
+    )
+
+    users: Mapped[list["User"]] = relationship(
+        "User",
+        back_populates="company",
+        cascade="all, delete-orphan",
+    )
+    audit_logs: Mapped[list["AuditLog"]] = relationship(
+        "AuditLog",
+        back_populates="company",
+        cascade="all, delete-orphan",
     )

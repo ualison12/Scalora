@@ -1,0 +1,115 @@
+version: "3.9"
+
+services:
+
+  postgres:
+    image: postgres:17
+    container_name: scalora-postgres
+
+    restart: always
+
+    environment:
+      POSTGRES_DB: scalora
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    networks:
+      - scalora-network
+
+
+
+  redis:
+
+    image: redis:7-alpine
+
+    container_name: scalora-redis
+
+    restart: always
+
+    ports:
+      - "6379:6379"
+
+    networks:
+      - scalora-network
+
+
+
+  api:
+
+    build:
+
+      context: .
+
+      dockerfile: infrastructure/docker/api/Dockerfile
+
+    container_name: scalora-api
+
+    restart: always
+
+    ports:
+
+      - "8000:8000"
+
+    volumes:
+
+      - ./apps/api:/app
+
+    depends_on:
+
+      - postgres
+
+      - redis
+
+    networks:
+
+      - scalora-network
+
+
+
+  web:
+
+    build:
+
+      context: .
+
+      dockerfile: infrastructure/docker/web/Dockerfile
+
+    container_name: scalora-web
+
+    restart: always
+
+    ports:
+
+      - "3000:3000"
+
+    volumes:
+
+      - ./apps/web:/app
+
+    depends_on:
+
+      - api
+
+    networks:
+
+      - scalora-network
+
+
+
+volumes:
+
+  postgres_data:
+
+
+
+networks:
+
+  scalora-network:
+
+    driver: bridge
