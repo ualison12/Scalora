@@ -9,7 +9,9 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 def hash_password(password: str) -> str:
-    return pwd_context.hash(password)
+    # Trunca a senha em 72 bytes para evitar incompatibilidade com bcrypt moderno
+    pwd_bytes = password.encode("utf-8")[:72]
+    return pwd_context.hash(pwd_bytes.decode("utf-8", errors="ignore"))
 
 
 def verify_password(password: str, password_hash: str) -> bool:
