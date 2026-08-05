@@ -9,3 +9,4 @@ from .user import User
 from .user_role import UserRole
 
 from app.modules.crm.models import Activity, Contact, Deal, Lead, Note, Stage, Task
+from app.modules.finance.models import Boleto, Category, CostCenter, Payable, Pix, Receivable

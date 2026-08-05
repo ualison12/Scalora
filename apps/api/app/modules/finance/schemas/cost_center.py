@@ -2,6 +2,7 @@ from pydantic import BaseModel, ConfigDict
 
 
 class CostCenterCreate(BaseModel):
+    company_id: int
     name: str
     code: str
 

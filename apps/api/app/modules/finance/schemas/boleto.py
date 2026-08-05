@@ -2,6 +2,7 @@ from pydantic import BaseModel, ConfigDict
 
 
 class BoletoCreate(BaseModel):
+    company_id: int
     transaction_id: int | None = None
     amount: float
     code: str

@@ -2,6 +2,7 @@ from pydantic import BaseModel, ConfigDict
 
 
 class CategoryCreate(BaseModel):
+    company_id: int
     name: str
     kind: str = "expense"
 
