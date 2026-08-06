@@ -55,7 +55,7 @@ class UserService:
     def delete(self, db: Session, *, user: User) -> None:
         self.repository.delete(db, user)
 
-    def authenticate(self, db: Session, *, email: str, password: str) -> Optional[User]:
+    def authenticate(self, db: Session, email: str, password: str) -> Optional[User]:
         user = self.repository.get_by_email(db, email)
         if not user:
             return None

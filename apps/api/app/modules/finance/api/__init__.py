@@ -1,4 +1,4 @@
-from .routes.boleto import router as boletos_router
+from .routes.boletos import router as boletos_router
 from .routes.categories import router as categories_router
 from .routes.cost_centers import router as cost_centers_router
 from .routes.dashboard import router as dashboard_router

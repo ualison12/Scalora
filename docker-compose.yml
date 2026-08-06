@@ -19,6 +19,12 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d scalora"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
     networks:
       - scalora-network
 
@@ -52,6 +58,13 @@ services:
 
     restart: always
 
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/scalora
+      SECRET_KEY: change-me-in-production
+      ALGORITHM: HS256
+      ACCESS_TOKEN_EXPIRE_MINUTES: 30
+      APP_ENV: development
+
     ports:
 
       - "8000:8000"
@@ -61,10 +74,16 @@ services:
       - ./apps/api:/app
 
     depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
 
-      - postgres
-
-      - redis
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/', timeout=2)"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
     networks:
 
