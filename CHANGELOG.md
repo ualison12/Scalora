@@ -2,23 +2,23 @@
 
 ## [0.1.0] - 2026-08-06
 
-### Added
+### Adicionado
 
-- Initial monorepo structure for API, web app, and infrastructure
-- FastAPI backend with modular domain organization
-- Core authentication flow with JWT and refresh tokens
-- CRM, inventory, finance, AI, and platform module scaffolding
-- Dashboard UI for executive overview
-- Docker Compose environment for local development
-- Basic documentation set for architecture, deployment, security, and contribution
+- estrutura inicial do monorepo com API, frontend e infraestrutura
+- backend FastAPI com organização modular por domínio
+- fluxo inicial de autenticação com JWT e refresh tokens
+- estrutura inicial dos módulos de CRM, estoque, financeiro, IA e plataforma
+- dashboard executivo no frontend
+- ambiente Docker Compose para desenvolvimento local
+- documentação inicial de arquitetura, banco de dados, API, segurança, deploy e contribuição
 
-### Improved
+### Melhorias
 
-- Central router registration for domain modules
-- Shared database metadata integration for models
-- Runtime middleware for logging and CORS
-- Audit and health-oriented project documentation
+- registro central de rotas por módulo
+- integração de metadata compartilhada para modelos
+- middleware de logging e CORS
+- documentação inicial de auditoria e saúde do projeto
 
-### Notes
+### Observações
 
-This release establishes the core foundation of the Scalora platform. The next milestone should focus on production hardening, stronger authorization, and deeper platform automation.
+Esta release estabelece a base funcional da plataforma Scalora. O próximo ciclo deve concentrar-se em hardening de produção, autorização mais robusta e automação operacional.

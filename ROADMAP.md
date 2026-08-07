@@ -1,46 +1,52 @@
 # Roadmap
 
-## Current release
+## Release atual
 
-Release 0.1.0
+Versão 0.1.0
 
-Status: foundation platform with core modules and initial UI
+Status: plataforma base com módulos centrais e UI inicial
 
-## Near-term priorities
+## Prioridades de curto prazo
 
-### 1. Production hardening
+### 1. Hardening de produção
 
-- Strengthen authentication and authorization
-- Add rate limiting and abuse controls
-- Improve exception handling and standardized error payloads
+- reforçar autenticação e autorização
+- adicionar rate limiting e proteção contra abuso
+- padronizar payloads de erro e tratamento de exceções
 
-### 2. Data and reliability
+### 2. Dados e confiabilidade
 
-- Expand Alembic migration coverage
-- Add indexes and constraints for critical entities
-- Improve backup and restore procedures
+- ampliar cobertura de migrações Alembic
+- adicionar índices e constraints para entidades críticas
+- melhorar procedimentos de backup e restore
 
-### 3. Observability
+### 3. Observabilidade
 
-- Centralize logs and traces
-- Add monitoring dashboards and alerting
-- Capture request correlation and operational metrics
+- centralizar logs e traces
+- incluir dashboards de monitoramento e alertas
+- capturar correlation IDs e métricas operacionais
 
-### 4. AI platform maturity
+### 4. Maturidade da camada de IA
 
-- Integrate providers such as OpenAI, Claude, Gemini, or DeepSeek
-- Add embedding and RAG workflows to production-ready pipelines
-- Expand agent orchestration and memory management
+- integrar provedores como OpenAI, Claude, Gemini e DeepSeek
+- evoluir fluxos de embedding e RAG para uso real
+- expandir orquestração de agentes e memória
 
-### 5. Billing and platform operations
+### 5. Billing e operações de plataforma
 
-- Mature subscription lifecycle workflows
-- Improve billing webhooks and reconciliation flows
-- Strengthen admin and audit capabilities
+- amadurecer lifecycle de assinaturas
+- melhorar webhooks de cobrança e reconciliação
+- fortalecer áreas administrativas e de auditoria
 
-## Mid-term vision
+## Visão de médio prazo
 
-- Multi-tenant SaaS-ready architecture
-- White-label deployment capability
-- Public API and SDK expansion
-- Enterprise-grade observability and compliance features
+- arquitetura SaaS pronta para multi-tenant
+- capacidade de white-label e implantação customizada
+- expansão da API pública e SDK
+- observabilidade e conformidade com maturidade empresarial
+
+## Visão de longo prazo
+
+- plataforma operacional completa para empresas de diferentes portes
+- automação avançada de negócios com IA assistida
+- governança, segurança e performance alinhados a ambientes críticos

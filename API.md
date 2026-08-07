@@ -1,78 +1,108 @@
 # API Reference
 
-## Overview
+## Visão geral
 
-The Scalora API is implemented in FastAPI and is exposed under the base path /api/v1. It provides endpoints for authentication, company administration, CRM, finance, inventory, AI, and platform operations.
+A API do Scalora é construída com FastAPI e exposta sob o prefixo /api/v1. Ela centraliza o acesso às operações de autenticação, empresas, CRM, financeiro, estoque, IA e plataforma.
 
 ## Base URL
 
-- Local development: http://localhost:8000/api/v1
-- Docker Compose: http://localhost:8000/api/v1
+- desenvolvimento local: http://localhost:8000/api/v1
+- ambiente Docker: http://localhost:8000/api/v1
 
-## Authentication
+## Documentação interativa
 
-### Login
+Quando a API estiver rodando, os endpoints abaixo estão disponíveis:
 
-- Endpoint: POST /auth/login
-- Purpose: authenticate a user and return access and refresh tokens
+- Swagger UI: http://localhost:8000/docs
+- ReDoc: http://localhost:8000/redoc
 
-### Refresh
+## Autenticação
 
-- Endpoint: POST /auth/refresh
-- Purpose: issue a new access token from a valid refresh token
+### POST /auth/login
 
-### Logout
+Autentica um usuário e retorna um token de acesso.
 
-- Endpoint: POST /auth/logout
-- Purpose: revoke a refresh token
+### POST /auth/refresh
 
-### Current user
+Emite um novo access token com base em um refresh token válido.
 
-- Endpoint: GET /auth/me
-- Purpose: return basic information for the current user context
+### POST /auth/logout
 
-## Core resource groups
+Revoga a sessão ou refresh token associado.
 
-### Companies
+### GET /auth/me
 
-- CRUD endpoints for companies via the companies router
+Retorna informações do usuário autenticado no contexto atual.
 
-### Users and roles
+## Endpoints por módulo
 
-- Manage users, roles, and permissions
+### Empresas
+
+- rotas de empresas e contextos organizacionais
+- suporte a estrutura baseada em company
+
+### Usuários e permissões
+
+- gestão de usuários
+- papéis e permissões
+- integração com o contexto da empresa
 
 ### CRM
 
-- Leads, contacts, deals, and stages
+- leads
+- contatos
+- deals
+- stages
+- dashboard de CRM
 
-### Inventory
+### Financeiro
 
-- Products, categories, brands, suppliers, lots, movements
+- contas a pagar
+- contas a receber
+- centros de custo
+- dashboards financeiros
+- relatórios e fluxo de cobrança
 
-### Finance
+### Estoque
 
-- Receivables, payables, cost centers, reports, dashboards, boletos, PIX-related flows
+- produtos
+- categorias
+- marcas
+- fornecedores
+- lotes
+- movimentações
+- dashboard de estoque
 
-### AI
+### IA
 
-- Providers, agents, prompts, tools, automations, memory, chat, summaries, analyses, RAG
+- provedores de IA
+- agentes
+- prompts
+- ferramentas
+- automações
+- memória
+- chat
+- summaries e analysis
+- RAG
+- dashboard de IA
 
-### Platform
+### Plataforma
 
-- Plans, subscriptions, billing events, webhooks, SDK keys, admin operations, logs, backups, deployment metadata
+- planos e assinaturas
+- billing
+- webhooks
+- SDK
+- administração
+- logs
+- backups
+- deploy
+- dashboard da plataforma
 
-## Response conventions
+## Convenções de resposta
 
-The API uses standard FastAPI JSON responses. Error responses are returned through FastAPI exception handling and the application middleware layer.
+A API utiliza respostas JSON padrão do FastAPI. Erros e exceções são tratados pela camada de middleware e pelo handler global da aplicação.
 
-## OpenAPI documentation
-
-Swagger UI and ReDoc are available through FastAPI’s built-in docs when the server is running:
-
-- Swagger UI: /docs
-- ReDoc: /redoc
-
-## Example request
+## Exemplo de chamada
 
 ```bash
 curl -X POST http://localhost:8000/api/v1/auth/login \
@@ -80,6 +110,12 @@ curl -X POST http://localhost:8000/api/v1/auth/login \
   -d '{"email":"admin@example.com","password":"secret"}'
 ```
 
-## Notes
+## Observações de maturidade
 
-The current API is functional for the implemented modules and is suitable for iterative development. The next phase should focus on stronger authentication context, standardized error payloads, pagination, and rate limiting.
+A API atual está funcional para a base implementada e é adequada para desenvolvimento iterativo. Os próximos passos incluem:
+
+- padronização de payloads de erro
+- paginação e filtros consistentes
+- rate limiting
+- melhor contexto de autorização por tenant
+- versionamento e documentação mais granular por recurso

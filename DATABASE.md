@@ -1,19 +1,19 @@
-# Database Guide
+# Banco de dados
 
-## Overview
+## Visão geral
 
-Scalora uses a relational data model centered on companies, users, roles, and domain-specific entities for CRM, inventory, finance, AI, and platform operations.
+O modelo de dados do Scalora é relacional e foi pensado para suportar empresas, usuários, permissões e domínios operacionais como CRM, financeiro, estoque, IA e plataforma. A estrutura atual já organiza entidades principais e estabelece a base para expansão de regras e integrações.
 
-## Supported database engines
+## Motores suportados
 
-- Development and tests: SQLite
-- Production-oriented deployments: PostgreSQL
+- desenvolvimento e testes: SQLite
+- ambiente orientado a produção: PostgreSQL
 
-The repository includes PostgreSQL support in Docker Compose and SQLAlchemy configuration suitable for both engines.
+O repositório já inclui suporte a PostgreSQL via Docker Compose e uma configuração compatível com SQLAlchemy.
 
-## Core entities
+## Entidades principais
 
-### Core platform
+### Plataforma e identidade
 
 - Company
 - User
@@ -30,7 +30,7 @@ The repository includes PostgreSQL support in Docker Compose and SQLAlchemy conf
 - Deal
 - Stage
 
-### Inventory
+### Estoque
 
 - Product
 - Category
@@ -39,17 +39,15 @@ The repository includes PostgreSQL support in Docker Compose and SQLAlchemy conf
 - Lot
 - Movement
 
-### Finance
+### Financeiro
 
 - Payable
 - Receivable
-- Category
 - CostCenter
 - Boleto
-- PIX transaction metadata
-- BillingEvent
+- eventos e dados de cobrança
 
-### AI
+### IA
 
 - AIProvider
 - AIAgent
@@ -59,7 +57,7 @@ The repository includes PostgreSQL support in Docker Compose and SQLAlchemy conf
 - AIMemory
 - AIDocument
 
-### Platform / operations
+### Plataforma e operações
 
 - Plan
 - Subscription
@@ -70,37 +68,49 @@ The repository includes PostgreSQL support in Docker Compose and SQLAlchemy conf
 - Deployment
 - Webhook
 
-## Relationship patterns
+## Padrões de relacionamento
 
-The current model layer uses SQLAlchemy declarative models with relationships where needed, including:
+O modelo atual utiliza SQLAlchemy com relacionamentos explícitos onde há dependência estrutural. Os principais padrões observados são:
 
-- users belonging to a company
-- refresh and session records linked to users
-- audit logs for user and platform actions
-- domain-specific references from inventory, finance, and platform modules to the owning company or user
+- usuários ligados a empresas
+- refresh tokens e sessões associados a usuários
+- auditoria ligada a ações de usuário e plataforma
+- entidades de negócio referenciando a empresa ou usuário proprietário
 
-## Migration strategy
+## Estratégia de migrações
 
-The project includes Alembic support and migration files under apps/api/alembic. The recommended workflow is:
+As migrações são gerenciadas com Alembic e armazenadas em apps/api/alembic. O fluxo recomendado é:
 
-1. Update the SQLAlchemy models.
-2. Create a new Alembic revision.
-3. Review the generated migration.
-4. Apply it in development or staging.
-5. Validate rollback strategy before production.
+1. ajustar o modelo SQLAlchemy
+2. gerar uma nova revisão do Alembic
+3. revisar o diff da migração
+4. aplicar em ambiente de desenvolvimento ou staging
+5. validar rollback antes de produção
 
-## Configuration
+## Configuração
 
-Connection strings are provided via environment variables. The key variable is DATABASE_URL. The default development configuration is SQLite, while Docker Compose uses PostgreSQL.
+A conexão com o banco é controlada pela variável DATABASE_URL. Em desenvolvimento, o padrão é SQLite; em ambientes Docker ou produção, o projeto já está preparado para PostgreSQL.
 
-## Operational guidance
+## Boas práticas operacionais
 
-- Use PostgreSQL for production-grade deployments.
-- Keep backups for business-critical tables.
-- Add indexes on high-volume lookup columns over time.
-- Review foreign keys and cascade rules as the data model grows.
-- Keep migration history versioned in source control.
+- usar PostgreSQL em ambientes reais
+- manter backups regulares das tabelas críticas
+- adicionar índices para colunas de consulta frequente
+- revisar chaves estrangeiras e cascatas conforme o volume crescer
+- manter histórico de migrações versionado em repositório
 
-## Current status
+## Estado atual
 
-The database layer is functional and can support the current module set. Future work should focus on stronger constraints, indexes, partitioning strategy for large reporting datasets, and broader migration coverage.
+A camada de dados já suporta o conjunto atual de módulos e é suficiente para evolução incremental. As próximas melhorias devem incluir:
+
+- mais restrições e integridade explícita
+- índices para consultas de alto volume
+- cobertura maior de migrações
+- estratégia de particionamento para relatórios extensos
+
+## Recomendações para produção
+
+- separar ambientes por banco e credenciais
+- evitar uso de dados de desenvolvimento em produção
+- implementar políticas de retenção e backup
+- revisar rotinas de manutenção e recuperação de falhas

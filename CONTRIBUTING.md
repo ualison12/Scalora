@@ -1,18 +1,18 @@
-# Contributing
+# Contribuindo com o Scalora
 
-## Welcome
+## Boas-vindas
 
-Contributions to Scalora are welcome. The project is evolving quickly, so clear communication and small, testable changes are especially valuable.
+Contribuições são bem-vindas. Como o projeto está em crescimento, mudanças pequenas, bem testadas e bem descritas têm maior valor do que alterações amplas e difusas.
 
-## Development workflow
+## Fluxo de desenvolvimento
 
-1. Create a branch from main.
-2. Implement your change in a focused manner.
-3. Add or update tests where relevant.
-4. Run the relevant test suite.
-5. Open a pull request with a clear summary and evidence.
+1. criar uma branch a partir da branch principal
+2. implementar a mudança de forma focada
+3. adicionar ou atualizar testes quando aplicável
+4. executar a suíte relevante
+5. abrir um pull request com resumo claro e evidências
 
-## Local setup
+## Configuração local
 
 ### Backend
 
@@ -36,27 +36,28 @@ npm run build
 docker compose up --build
 ```
 
-## Coding standards
+## Padrões de código
 
-- Prefer explicit, readable Python and TypeScript.
-- Keep business logic in services and persistence logic in repositories.
-- Follow the existing module layout for new features.
-- Add documentation for user-facing behavior and architectural decisions when relevant.
+- preferir Python e TypeScript claros e explícitos
+- manter lógica de negócio em services
+- manter persistência e acesso a dados em camadas apropriadas
+- seguir a estrutura modular existente para novos recursos
+- documentar mudanças que alterem arquitetura, fluxo ou comportamento do usuário
 
-## Testing expectations
+## Expectativas de teste
 
-- Add tests for new behaviors and regressions.
-- Prefer targeted unit tests for services and integration-style tests for routes when relevant.
-- Verify the full backend test suite before opening a PR.
+- adicionar testes para novos comportamentos e regressões
+- preferir testes unitários para regras de negócio e testes de integração para rotas quando pertinente
+- validar a suíte backend antes de abrir PR
 
-## Pull request checklist
+## Checklist de pull request
 
-- [ ] Feature or fix is described clearly
-- [ ] Tests were added or updated
-- [ ] Documentation was updated if needed
-- [ ] No obvious security regression was introduced
-- [ ] Relevant runtime checks were executed
+- [ ] a mudança está descrita com clareza
+- [ ] testes foram adicionados ou atualizados
+- [ ] documentação foi atualizada quando necessário
+- [ ] não foi introduzido um regressão evidente de segurança
+- [ ] os checks relevantes foram executados
 
-## Communication
+## Comunicação
 
-Use pull requests and issue discussions for implementation details, design questions, and rollout concerns.
+Use pull requests e discussões de issues para detalhes de implementação, decisões de design e questões de rollout.

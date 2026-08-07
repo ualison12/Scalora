@@ -1,33 +1,33 @@
-# Deployment Guide
+# Deploy e operação
 
-## Overview
+## Visão geral
 
-Scalora can be run locally with Docker Compose and can also be adapted to a production deployment model on a VM, Kubernetes, or a managed container platform.
+O Scalora pode ser executado localmente com Docker Compose e também adaptado para ambientes mais próximos de produção, como máquinas virtuais, Kubernetes ou plataformas de containers gerenciadas.
 
-## Local development
+## Ambiente local
 
-### Prerequisites
+### Pré-requisitos
 
-- Docker and Docker Compose
+- Docker e Docker Compose
 - Python 3.13+
 - Node.js 20+
 
-### Start the stack
+### Subir a stack
 
 ```bash
 docker compose up --build
 ```
 
-This starts:
+Os serviços iniciados incluem:
 
-- PostgreSQL on port 5432
-- Redis on port 6379
-- API on port 8000
-- Web app on port 3000
+- PostgreSQL na porta 5432
+- Redis na porta 6379
+- API na porta 8000
+- frontend na porta 3000
 
-## Environment variables
+## Variáveis de ambiente
 
-The application expects variables such as:
+A aplicação utiliza variáveis como:
 
 - DATABASE_URL
 - SECRET_KEY
@@ -36,33 +36,33 @@ The application expects variables such as:
 - APP_ENV
 - APP_DEBUG
 
-Refer to the repository root environment example for defaults and placeholders.
+Essas configurações devem ser definidas de forma explícita em cada ambiente.
 
-## Production checklist
+## Checklist para produção
 
-- Use strong secrets and rotate them regularly.
-- Run PostgreSQL instead of SQLite.
-- Enable TLS and reverse proxy termination.
-- Configure backups and retention policies.
-- Add monitoring and alerting for API uptime and error rate.
-- Avoid using development defaults in production.
+- usar segredos fortes e rotacioná-los regularmente
+- preferir PostgreSQL em vez de SQLite
+- habilitar TLS e término de proxy reverso
+- configurar backup e retenção
+- implementar monitoramento e alertas
+- evitar defaults de desenvolvimento em ambientes públicos
 
-## Container notes
+## Observações de containers
 
-The current Docker Compose setup includes health checks for PostgreSQL and the API container. Additional hardening should include:
+A configuração atual já inclui health checks para PostgreSQL e API. Para avançar para produção, recomenda-se:
 
-- dedicated production images
-- non-root container execution where possible
-- separate secrets management
-- explicit resource limits
+- imagens separadas para produção
+- execução sem privilégio root quando possível
+- gerenciamento de segredos fora do repositório
+- limites explícitos de CPU e memória
 
-## Rollout and rollback
+## Estratégia de rollout e rollback
 
-- Keep migrations in source control.
-- Apply database migrations before rolling out new API versions.
-- Test deployment changes in staging first.
-- Maintain versioned backup artifacts for rollback readiness.
+- manter migrações versionadas em repositório
+- aplicar migrações antes de publicar nova versão da API
+- validar mudanças em staging antes de produção
+- manter backups e artefatos para rollback
 
-## Current status
+## Status atual
 
-The deployment stack is operational for local development and can be extended for staging or production use. The next improvements should focus on production hardening and automated release pipelines.
+A infraestrutura atual é funcional para desenvolvimento local. A próxima evolução deve focar em automação de deployment, hardening operacional e observabilidade.

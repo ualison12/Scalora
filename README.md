@@ -1,56 +1,38 @@
 # Scalora
 
-Scalora is a modular business operating system for companies that need CRM, finance, inventory, AI, and platform operations in a single product experience.
+Scalora é uma plataforma modular de operações empresariais construída para unir CRM, finanças, estoque, IA e operações de plataforma em uma experiência única. O projeto está estruturado como um monorepo com backend em FastAPI, frontend em Next.js e infraestrutura baseada em Docker.
 
-## Overview
+## Visão geral
 
-The project is organized as a monorepo composed of:
+A versão atual do repositório já entrega uma base funcional para desenvolvimento e validação de cenários reais de negócios. O ecossistema inclui:
 
-- Backend API built with FastAPI and SQLAlchemy
-- Web frontend built with Next.js and React
-- Infrastructure and deployment assets through Docker Compose
-- Domain modules for CRM, finance, inventory, AI, and platform operations
+- API backend organizada por módulos de domínio
+- Frontend executivo com visão consolidada de KPIs e módulos
+- Infraestrutura local para API, banco de dados e interface web
+- Estrutura preparada para expansão em produto SaaS e operações multi-tenant
 
-## Current capabilities
+## Status atual
 
-### Product areas
+O projeto encontra-se em estágio inicial, porém com uma base sólida para evolução. Os principais blocos já estão presentes:
 
-- Authentication and user management
-- Company and role-based access structure
-- CRM: leads, contacts, deals, and stages
-- Inventory: products, categories, brands, suppliers, lots, movements
-- Finance: payables, receivables, dashboards, reports, and payment-related flows
-- AI: providers, agents, prompts, tools, automations, memory, analysis, summaries, and chat
-- Platform: plans, subscriptions, billing events, webhooks, SDK keys, admin tools, logs, backups, and deployments
+- autenticação e gestão de usuários
+- estrutura de empresas e papéis
+- módulos de CRM, finanças, estoque e IA
+- painel executivo no frontend
+- rotas de API organizadas por domínio
+- ambiente Docker para desenvolvimento local
 
-### User experience
+## Arquitetura resumida
 
-- Executive dashboard with KPI cards and module overview
-- Dark-themed UI layout
-- Modular navigation for admin and AI scenarios
+O repositório está organizado em:
 
-## Repository structure
+- apps/api: backend FastAPI, modelos, serviços, rotas e testes
+- apps/web: frontend Next.js com interface de dashboard e módulos
+- docs: documentação de produto, arquitetura, banco, API e decisões
+- infrastructure: Dockerfiles e configuração de implantação
+- docker-compose.yml: ambiente local completo com PostgreSQL, Redis, API e web
 
-```text
-Scalora/
-  apps/
-    api/            # FastAPI backend
-    web/            # Next.js frontend
-  docs/            # Product, architecture, and design documentation
-  docker-compose.yml
-  AUDIT.md
-  README.md
-  ARCHITECTURE.md
-  DATABASE.md
-  API.md
-  SECURITY.md
-  DEPLOY.md
-  CONTRIBUTING.md
-  ROADMAP.md
-  CHANGELOG.md
-```
-
-## Technology stack
+## Stack tecnológica
 
 ### Backend
 
@@ -66,14 +48,57 @@ Scalora/
 - React 19
 - TypeScript
 
-### Infrastructure
+### Infraestrutura
 
 - Docker Compose
 - PostgreSQL
 - Redis
-- Nginx (planned/operational groundwork)
+- Nginx como base para evolução de deployment
 
-## Getting started
+## Estrutura do repositório
+
+```text
+Scalora/
+  apps/
+    api/
+    web/
+  docs/
+  infrastructure/
+  docker-compose.yml
+  README.md
+  ARCHITECTURE.md
+  DATABASE.md
+  API.md
+  SECURITY.md
+  DEPLOY.md
+  CONTRIBUTING.md
+  ROADMAP.md
+  CHANGELOG.md
+```
+
+## Módulos principais
+
+### CRM
+
+Gerenciamento de leads, contatos, oportunidades e etapas de vendas.
+
+### Financeiro
+
+Fluxos de contas a pagar, contas a receber, centros de custo, relatórios e dashboards.
+
+### Estoque
+
+Produtos, categorias, marcas, fornecedores, lotes e movimentações.
+
+### IA
+
+Provedores, agentes, prompts, ferramentas, automações, memória, chat, resumos e análises.
+
+### Plataforma
+
+Planos, assinaturas, eventos de billing, webhooks, SDK, logs, backups e deploy.
+
+## Como executar localmente
 
 ### Backend
 
@@ -91,13 +116,20 @@ npm install
 npm run dev
 ```
 
-### Full stack with Docker
+### Stack completo com Docker
 
 ```bash
 docker compose up --build
 ```
 
-## Documentation
+A aplicação ficará disponível em:
+
+- API: http://localhost:8000
+- Frontend: http://localhost:3000
+- PostgreSQL: localhost:5432
+- Redis: localhost:6379
+
+## Documentação
 
 - [ARCHITECTURE.md](ARCHITECTURE.md)
 - [DATABASE.md](DATABASE.md)
@@ -108,10 +140,14 @@ docker compose up --build
 - [ROADMAP.md](ROADMAP.md)
 - [CHANGELOG.md](CHANGELOG.md)
 
-## Status
+## Princípios de desenvolvimento
 
-Scalora is currently in an early but functional foundation stage. The platform already includes modular backend services, a working API surface, the start of a web experience, and a documented roadmap for maturation into a production-ready system.
+- manter lógica de negócio em serviços
+- organizar modelos e persistência por domínio
+- priorizar modularidade e extensibilidade
+- manter configuração e ambientes explícitos
+- documentar mudanças importantes de arquitetura e fluxo
 
-## License
+## Licença
 
-See the repository license file for details.
+Consulte o arquivo de licença do repositório para informações completas.

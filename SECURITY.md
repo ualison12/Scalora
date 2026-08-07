@@ -1,44 +1,44 @@
-# Security Guide
+# Segurança
 
-## Overview
+## Visão geral
 
-Scalora includes foundational security mechanisms for authentication, password hashing, and environment-based configuration. The current implementation should be considered a baseline rather than a complete production security posture.
+O Scalora já incorpora mecanismos básicos de segurança para autenticação, gerenciamento de credenciais e configuração por ambiente. A implementação atual representa uma base funcional para desenvolvimento e validação, mas ainda precisa de reforços antes de ser considerada totalmente adequada para produção.
 
-## Current protections
+## Proteções atuais
 
-- Password hashing with bcrypt
-- JWT-based access token issuance
-- Refresh token records and basic session tracking
-- Environment-based configuration for secret values
-- Basic CORS support and request logging middleware
+- hash de senhas com bcrypt
+- emissão de JWT para autenticação
+- refresh tokens e rastreamento básico de sessão
+- configuração por variáveis de ambiente
+- controle inicial de CORS e logging de requests
 
-## Important gaps to address
+## Áreas prioritárias de hardening
 
-- Strong secret management for production
-- Multi-tenant authorization enforcement
-- Rate limiting and abuse protection
-- Structured audit events for sensitive actions
-- TLS termination and secure headers in deployed environments
-- Regular rotation of credentials and tokens
+- gestão forte de secrets em produção
+- autorização explícita por tenant e contexto de empresa
+- rate limiting e proteção contra abuso
+- auditoria estruturada para ações sensíveis
+- TLS, headers de segurança e proteção de edge em ambientes públicos
+- rotação regular de credenciais e tokens
 
-## Recommended practices
+## Práticas recomendadas
 
-- Never commit secrets or real credentials.
-- Use environment variables or a secret manager in production.
-- Restrict CORS origins explicitly.
-- Enforce least-privilege access for admin and platform operations.
-- Keep dependencies updated and review package changes regularly.
+- nunca publicar senhas, tokens ou chaves reais em repositório
+- usar variáveis de ambiente ou gerenciadores de segredos em produção
+- limitar origens permitidas no CORS
+- aplicar princípio de menor privilégio para operações administrativas
+- manter dependências atualizadas e revisar mudanças de segurança regularmente
 
-## Incident handling
+## Resposta a incidentes
 
-If an incident is suspected:
+Se houver suspeita de incidente:
 
-1. Rotate access and refresh secrets.
-2. Revoke or invalidate active sessions and tokens where possible.
-3. Review audit logs and recent activity.
-4. Limit access temporarily if needed.
-5. Document the incident and follow-up actions.
+1. rotacionar secrets de acesso e refresh
+2. invalidar sessões e tokens ativos quando possível
+3. revisar logs e atividade recente
+4. restringir temporariamente o acesso
+5. documentar a ocorrência e os próximos passos
 
-## Current status
+## Status atual
 
-The security layer is functional for development and early-stage deployment. Production readiness requires stronger hardening around authentication context, secrets, and operational monitoring.
+A camada de segurança já está funcional para desenvolvimento e ambientes iniciais. Para uma adoção mais robusta, o próximo ciclo deve reforçar autenticação contextual, gerenciamento seguro de segredos e observabilidade de segurança.

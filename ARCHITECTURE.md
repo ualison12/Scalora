@@ -1,124 +1,160 @@
-# Architecture
+# Arquitetura do projeto
 
-## Overview
+## Visão geral
 
-Scalora is a monorepo platform for operations, commerce, and AI-assisted workflows. The current implementation is organized around a FastAPI backend, a Next.js frontend, and a Docker-based runtime for local development and deployment.
+Scalora é um monorepo de plataforma operacional composta por um backend modular, um frontend executivo e uma camada de infraestrutura para desenvolvimento e implantação. A arquitetura atual foi pensada para separar os domínios de negócio por módulos, permitindo evolução incremental sem acoplar demais os serviços.
 
-## High-level structure
+## Objetivos de arquitetura
 
-- Backend: Python 3.13+ with FastAPI, SQLAlchemy, Pydantic, and pytest
-- Frontend: Next.js 15 with React 19 and TypeScript
-- Data layer: PostgreSQL for production-oriented deployments and SQLite for local/test execution
-- Runtime: Docker Compose with PostgreSQL, Redis, API, and web services
+- separar claramente contexto de negócio e infraestrutura
+- manter módulos por domínio, como CRM, financeiro, estoque, IA e plataforma
+- facilitar a evolução para um modelo SaaS com múltiplos tenants
+- reduzir acoplamento entre API, frontend e persistência
 
-## Runtime topology
+## Arquitetura geral
 
 ```text
-Browser / Mobile Client
+Usuário / Browser
         |
         v
-Next.js Web App
+Frontend Next.js
         |
         v
-FastAPI API
-  |      |      |
-  |      |      +-> AI module
-  |      |      +-> Platform module
-  |      +-> Inventory module
-  +-> CRM module
-  +-> Finance module
+API FastAPI
+  |   |   |   |   |
+  |   |   |   |   +-> Plataforma
+  |   |   |   +-> IA
+  |   |   +-> Estoque
+  |   +-> Financeiro
+  +-> CRM
         |
         v
 PostgreSQL / SQLite
         |
         v
-Redis (planned for caching and queues)
+Redis (infraestrutura e evolução de cache/filas)
 ```
 
-## Backend architecture
+## Estrutura técnica
 
-The backend follows a modular domain-driven layout under app/modules. Each module typically contains:
+### Backend
 
-- api/routes: FastAPI routers
-- services: business logic
-- repositories: persistence access
-- schemas: request/response validation
-- models: SQLAlchemy entities
-- tests: module-level verification
+O backend está localizado em apps/api e segue uma organização modular sob app/modules. Cada módulo é responsável por uma área específica do negócio e pode incluir:
 
-The central application entrypoints are:
+- api: rotas FastAPI
+- services: regras de negócio
+- schemas: validação de entrada e saída
+- models: entidades SQLAlchemy
+- repositories: acesso à persistência
+- tests: cobertura de comportamento relevante
 
-- app/main.py: FastAPI application creation and middleware
-- app/api/router.py: global router composition
-- app/database.py: shared metadata and import registration
-- app/core/config.py: environment-driven settings
-- app/core/security.py: password hashing and JWT helpers
+### Frontend
 
-## Domain modules
+O frontend está localizado em apps/web e tem como função oferecer uma visão operacional e executiva do sistema. A UI atual concentra-se em:
 
-### Authentication and users
+- painel executivo
+- visão por módulos
+- navegação administrativa
+- cenários de IA e operações
 
-- Login, logout, refresh token flows
-- Company-scoped user access
-- Session and audit logging support
+## Pontos centrais do backend
+
+Os arquivos principais do backend são:
+
+- app/main.py: criação da aplicação FastAPI e middleware
+- app/api/router.py: composição global das rotas
+- app/core/config.py: configuração por ambiente
+- app/core/security.py: helpers de autenticação e segurança
+- app/database.py: modelos e integração de metadata compartilhada
+
+## Módulos de domínio
+
+### Autenticação e identidade
+
+- login, refresh e logout
+- gestão de usuários
+- empresas e papéis
+- controle de sessão e auditoria básica
 
 ### CRM
 
-- Leads, contacts, stages, and deals
+- leads
+- contatos
+- oportunidades
+- estágios de vendas
 
-### Inventory
+### Financeiro
 
-- Products, categories, brands, suppliers, lots, movements
+- contas a pagar e receber
+- centros de custo
+- boletos e fluxo de pagamentos
+- relatórios e dashboards
 
-### Finance
+### Estoque
 
-- Payables, receivables, cost centers, payments, dashboards, reports
+- produtos
+- categorias
+- marcas
+- fornecedores
+- lotes
+- movimentações
 
-### AI
+### IA
 
-- Providers, agents, prompts, tools, automations, memories, chat, summaries, analyses, RAG
+- provedores
+- agentes
+- prompts
+- ferramentas
+- automações
+- memória
+- chat
+- summaries e analysis
+- RAG
 
-### Platform
+### Plataforma
 
-- Plans, subscriptions, billing events, webhooks, SDK keys, admin users, logs, backups, deployment metadata
+- planos e assinaturas
+- billing e webhooks
+- SDK keys
+- logs e backups
+- deploy e administração
 
-## Frontend architecture
+## Padrões de design
 
-The web application is a thin UI layer over the API. Current pages include:
+- separação entre camada de API, serviços e persistência
+- utilização de rotas organizadas por módulo
+- configuração por variáveis de ambiente
+- tratamento de erros e logging centralizado no middleware
+- abstração de regras de negócio em serviços para facilitar testes e extensão
 
-- Home dashboard
-- Modules overview
-- Admin operations
-- AI module playground-style view
+## Considerações transversais
 
-The frontend uses a component-based layout and CSS-driven cards, grids, and badges for the current dashboard experience.
+### Configuração
 
-## Cross-cutting concerns
+As configurações são carregadas por meio de um settings central, permitindo que a aplicação se adapte a diferentes ambientes sem alterar o código.
 
-### Configuration
+### Autenticação
 
-Configuration comes from environment variables and the settings object in app/core/config.py. A sample environment file is maintained at the repository root.
+A camada atual utiliza JWT e refresh tokens, além de hashing para senhas. Esse padrão é adequado para a fase atual de desenvolvimento e evolução.
 
-### Authentication
+### Observabilidade
 
-The API currently supports JWT-based access tokens and refresh tokens with password hashing via bcrypt.
+A aplicação já possui logging básico de requests e um handler genérico para exceções. O próximo passo é evoluir para logs estruturados, tracing e alertas.
 
-### Logging and errors
+### Testes
 
-The application exposes a basic request logging middleware and exception handler. Production deployments should extend this with structured logs, correlation IDs, and external sinks.
+A suíte backend contém testes para módulos principais, como CRM, finanças, estoque, IA, IAM e runtime.
 
-### Testing
+## Estado de maturidade
 
-The backend test suite covers core services and module flows. The current suite is executed with pytest.
+A base do produto já está funcional e preparada para crescer. As prioridades de evolução são:
 
-## Design principles
+- reforço de autorização multi-tenant
+- hardening de segurança e secrets
+- maior cobertura de migrações e dados
+- observabilidade operacional e monitoramento
+- automação de deploy e operação
 
-- Keep business logic in services
-- Keep persistence concerns in repositories
-- Encourage modular extension by domain
-- Prefer explicit configuration and clear environment boundaries
-- Keep API routes composable and consistent
+## Direção futura
 
-## Current maturity
-
-The codebase is now functional as a foundation platform, with modules operating together and a dashboard frontend available. The next improvement waves should focus on production hardening, multi-tenant authorization, stronger observability, and deployment automation.
+A arquitetura atual é uma base sólida para uma plataforma empresarial mais completa, com foco em escalabilidade, governança e experiência operacional.
